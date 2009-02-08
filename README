@@ -1,0 +1,11 @@
+irb_rocket
+==========
+
+USAGE
+
+  In your ~/.irbrc
+
+    require 'irb_rocket'
+
+  That's all!
+  let's try new style of irb
