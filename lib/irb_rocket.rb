@@ -56,17 +56,15 @@ module IRB
           original_signal_status(name, *args, &block)
         end
       else
+        if name == :IN_INPUT
+        end
         original_signal_status(name, *args, &block)
       end
     end
 
     def output_value
-      lines = @last_line.respond_to?(:to_a) ?
-        @last_line.to_a : @last_line.each_line
-      last = lines.map do |line|
-        @context.io.prompt + line
-      end.join.chomp
-      @io.print((cuu1*lines.count) + last + " " +
+      last = @context.io.prompt + @last_line.split("\n").last
+      @io.print(cuu1 + (cuf1*last.length) + " " +
         Wirble::Colorize::Color.escape(:blue) + "#=>" + sgr0 +
         " " + Wirble::Colorize.colorize(@context.last_value.inspect) + cud1)
     end
@@ -75,6 +73,7 @@ module IRB
     def terminfo; @terminfo ||= TermInfo.new end
     def cuu1; terminfo.tigetstr('cuu1') end
     def cud1; terminfo.tigetstr('cud1') end
+    def cuf1; terminfo.tigetstr('cuf1') end
     def sgr0; terminfo.tigetstr('sgr0') end
     def sc; terminfo.tigetstr('sc') end
     def rc; terminfo.tigetstr('rc') end

@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rake/gempackagetask'
 
 GEM_NAME = "irb_rocket"
-GEM_VERSION = "0.1.0"
+GEM_VERSION = "0.1.1"
 AUTHOR = "Genki Takiuchi"
 EMAIL = "genki@s21g.com"
 HOMEPAGE = "http://blog.s21g.com/genki"
@@ -21,6 +21,7 @@ spec = Gem::Specification.new do |s|
   s.email = EMAIL
   s.homepage = HOMEPAGE
   s.add_dependency('wirble', '>= 0.1.2')
+  s.add_dependency('ruby-terminfo', '>= 0.1')
   s.require_path = 'lib'
   s.files = %w(README Rakefile) + Dir.glob("{lib,spec}/**/*")
 end
