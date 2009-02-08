@@ -38,7 +38,7 @@ module IRB
   private
     def play_io(io, &block)
       buf = ""
-      buf << io.read_nonblock(3) while true
+      buf << io.read_nonblock(1024) while true
     rescue Errno::EAGAIN
       block[buf]
     rescue Exception => e
@@ -56,15 +56,14 @@ module IRB
           original_signal_status(name, *args, &block)
         end
       else
-        if name == :IN_INPUT
-        end
+        print sc if name == :IN_INPUT
         original_signal_status(name, *args, &block)
       end
     end
 
     def output_value
       last = @context.io.prompt + @last_line.split("\n").last
-      @io.print(cuu1 + (cuf1*last.length) + " " +
+      @io.print(rc + cuu1 + (cuf1*last.length) + " " +
         Wirble::Colorize::Color.escape(:blue) + "#=>" + sgr0 +
         " " + Wirble::Colorize.colorize(@context.last_value.inspect) + cud1)
     end
