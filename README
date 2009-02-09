@@ -1,10 +1,18 @@
 irb_rocket
 ==========
 
+INSTALL
+
+  You must install Wirble and ruby-terminfo in advance. And then, you can
+  install the plugin like this:
+
+    sudo gem install irb_rocket --source http://merbi.st
+
 USAGE
 
   In your ~/.irbrc
 
+    require 'rubygems'
     require 'irb_rocket'
 
   That's all!
