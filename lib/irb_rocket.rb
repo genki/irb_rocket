@@ -63,7 +63,7 @@ module IRB
 
     def output_value
       last = @context.io.prompt + @last_line.split("\n").last
-      @io.print(rc + cuu1 + (cuf1*last.length) + " " +
+      @io.print(rc + (cuf1*last.length) + " " +
         Wirble::Colorize::Color.escape(:blue) + "#=>" + sgr0 +
         " " + Wirble::Colorize.colorize(@context.last_value.inspect) + cud1)
     end
