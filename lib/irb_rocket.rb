@@ -50,20 +50,21 @@ module IRB
     alias :original_signal_status :signal_status
     def signal_status(name, *args, &block)
       if name == :IN_EVAL
+        print sc
         @last_line = eval('line', block.binding)
         @io = CaptureIO.new
         @io.capture do
           original_signal_status(name, *args, &block)
         end
       else
-        print sc if name == :IN_INPUT
         original_signal_status(name, *args, &block)
       end
     end
 
     def output_value
+      return ' ' if @io.nil?
       last = @context.io.prompt + @last_line.split("\n").last
-      @io.print(rc + (cuf1*last.length) + " " +
+      @io.print(rc + cuu1 + (cuf1*last.length) + " " +
         Wirble::Colorize::Color.escape(:blue) + "#=>" + sgr0 +
         " " + Wirble::Colorize.colorize(@context.last_value.inspect) + cud1)
     end
