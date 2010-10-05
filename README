@@ -17,3 +17,7 @@ USAGE
 
   That's all!
   let's try new style of irb
+
+FORK
+
+  Added Kernel#exec workaround that restores stdout when calling exec

@@ -12,7 +12,15 @@ module IRB
       @out, @err = STDOUT.dup, STDERR.dup
     end
 
+    def self.original_streams
+      {
+         :stdout => @@current_capture.instance_variable_get( :@out ),
+         :stderr => @@current_capture.instance_variable_get( :@err ),
+      }
+    end
+
     def capture(&block)
+      @@current_capture = self
       STDOUT.reopen(@sout)
       STDERR.reopen(@eout)
       block.call
@@ -77,5 +85,14 @@ module IRB
     def sgr0; terminfo.tigetstr('sgr0') end
     def sc; terminfo.tigetstr('sc') end
     def rc; terminfo.tigetstr('rc') end
+  end
+end
+
+module Kernel
+  alias original_exec exec
+  def exec(*args)
+    STDOUT.reopen(IRB::CaptureIO.original_streams[:stdout])
+    STDERR.reopen(IRB::CaptureIO.original_streams[:stderr])
+    original_exec *args
   end
 end
